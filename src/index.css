@@ -1,0 +1,208 @@
+/* Variables CSS pour un thème plus facile */
+:root {
+  --primary-color: #007bff;
+  --secondary-color: #6c757d;
+  --success-color: #28a745;
+  --warning-color: #ffc107;
+  --danger-color: #dc3545;
+  --info-color: #17a2b8;
+  --dark-color: #343a40;
+  --light-color: #f8f9fa;
+  --text-dark: #212529;
+  --text-light: #f8f9fa;
+  --border-color: #dee2e6;
+  --card-bg: #ffffff;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--light-color); /* Fond clair pour un look moderne */
+  color: var(--text-dark);
+  min-height: 100vh; /* S'assure que le body prend au moins toute la hauteur de la vue */
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* S'assure que l'application prend toute la hauteur de la vue */
+}
+
+/* Layout Responsif du Tableau de Bord */
+.dashboard-layout {
+  display: flex;
+  flex-grow: 1; /* Permet au layout de prendre l'espace restant */
+  width: 100%; /* S'assure qu'il prend toute la largeur disponible */
+}
+
+.sidebar {
+  width: 250px;
+  background-color: var(--dark-color);
+  color: var(--text-light);
+  padding: 1rem;
+  flex-shrink: 0;
+  transition: width 0.3s ease-in-out; /* Animation pour l'ouverture/fermeture */
+
+  /* Responsive pour la sidebar */
+  @media (max-width: 768px) {
+    position: fixed; /* Fixe la sidebar sur mobile */
+    top: 56px; /* Sous la navbar */
+    left: -250px; /* Cachée par défaut */
+    height: calc(100vh - 56px);
+    z-index: 1030; /* Au-dessus du contenu principal */
+    overflow-y: auto; /* Scroll si contenu trop long */
+  }
+
+  &.open {
+    left: 0; /* Montrée sur mobile */
+  }
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 1.5rem;
+  background-color: var(--light-color);
+  overflow-x: hidden; /* Empêche le défilement horizontal */
+
+  @media (max-width: 768px) {
+    padding-top: 1rem; /* Moins de padding sur mobile */
+  }
+}
+
+/* Style des cartes */
+.card {
+  border: none;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05);
+}
+
+.card-header {
+  background-color: var(--primary-color);
+  color: white;
+  border-bottom: none;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  font-weight: 600;
+}
+
+/* Styles pour les listes d'éléments (Todos, Catégories, Tags) */
+.list-group-item {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  margin-bottom: 0.75rem;
+  border-radius: 0.375rem; /* Léger arrondi */
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.todo-item.completed {
+  background-color: var(--light-color);
+  text-decoration: line-through;
+  color: var(--secondary-color);
+  opacity: 0.7;
+}
+
+/* Badges */
+.badge {
+  font-size: 0.8rem;
+  padding: 0.4em 0.7em;
+  border-radius: 0.25rem;
+}
+
+/* Formulaires et Boutons */
+.form-control, .form-select {
+  border-radius: 0.3rem;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+}
+
+.btn {
+  border-radius: 0.3rem;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+.btn-success {
+  background-color: var(--success-color);
+  border-color: var(--success-color);
+}
+.btn-success:hover {
+  background-color: #218838;
+  border-color: #1e7e34;
+}
+
+.btn-danger {
+  background-color: var(--danger-color);
+  border-color: var(--danger-color);
+}
+.btn-danger:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+}
+
+.btn-info {
+  background-color: var(--info-color);
+  border-color: var(--info-color);
+}
+.btn-info:hover {
+  background-color: #138496;
+  border-color: #117a8b;
+}
+
+/* Footer */
+.footer {
+  background-color: var(--dark-color);
+  color: var(--text-light);
+  padding: 1rem 0;
+  text-align: center;
+  flex-shrink: 0; /* Empêche le footer de se rétrécir */
+}
+
+/* Alertes */
+.alert {
+  border-radius: 0.3rem;
+}
+
+/* Modal */
+.modal.d-block {
+  display: flex !important; /* Force le flex pour centrer */
+  align-items: center;
+  justify-content: center;
+}
+
+/* Spinner de chargement */
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+}
+
+/* Amélioration pour les petits écrans */
+@media (max-width: 576px) {
+  .main-content {
+    padding: 0.75rem;
+  }
+  .card-body {
+    padding: 1rem;
+  }
+  .btn-group .btn {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+  }
+}
