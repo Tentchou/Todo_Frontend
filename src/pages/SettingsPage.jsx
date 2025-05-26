@@ -15,11 +15,12 @@ const SettingsPage = () => {
   }
 
   return (
-    <div className="settings-page container-fluid">
+    <div className="container">
+      <div className="page-inner">
       <h1 className="mb-4 text-primary"><FontAwesomeIcon icon={faUserCog} className="me-2" />User Settings</h1>
 
       <div className="card shadow-sm mb-4">
-        <div className="card-header bg-dark text-white">
+        <div className="card-header bg-primary text-white">
           <h5>Profile Information</h5>
         </div>
         <div className="card-body">
@@ -61,6 +62,7 @@ const SettingsPage = () => {
             {/* Future: Bouton pour Modifier le profil / changer le mot de passe */}
             {/* <button className="btn btn-outline-secondary btn-sm">Edit Profile</button> */}
         </div>
+      </div>
       </div>
 
       {/* Vous pouvez ajouter ici d'autres sections comme "Change Password", "Manage Preferences", etc. */}
