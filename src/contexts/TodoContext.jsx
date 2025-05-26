@@ -11,20 +11,20 @@ export const TodoProvider = ({ children }) => {
   const [pagination, setPagination] = useState({});
   const [successMessage, setSuccessMessage] = useState(null);
 
-  const fetchTodos = useCallback(async (filters = {}) => {
-    setLoading(true);
+  const fetchTodos = useCallback(async (filters) => {
+    setLoading(true); // <== Commence toujours par mettre loading à true
     setError(null);
     try {
-      const data = await todoService.getTodos(filters);
-      setTodos(data.data);
-      setPagination(data.meta); // Laravel retourne meta et links pour la pagination
+      const response = await todoService.getTodos(filters);
+      setTodos(response.data);
+      setPagination(response.pagination || {});
     } catch (err) {
       console.error("Failed to fetch todos:", err);
-      setError('Failed to load todos. Please try again.');
+      setError('Failed to load todos.');
     } finally {
-      setLoading(false);
+      setLoading(false); // <== Et finit toujours par mettre loading à false
     }
-  }, []); // Dépendances vides car `todoService` est statique
+  }, []);
 
   const addTodo = async (todoData) => {
     setLoading(true);

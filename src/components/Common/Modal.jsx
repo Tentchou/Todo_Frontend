@@ -7,6 +7,7 @@ const Modal = ({ show, onClose, title, children, size = 'md' }) => {
   }
 
   const modalClasses = `modal-dialog modal-dialog-centered ${size === 'xl' ? 'modal-xl' : ''}`;
+  
 
   return createPortal(
     <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>

@@ -42,10 +42,11 @@ const CategoriesPage = () => {
   }
 
   return (
-    <div className="categories-page container-fluid">
-      <h1 className="mb-4 text-primary">My Categories</h1>
+    <div className="container">
+      <div className="page-inner">
+      <h1 className="mb-4 text">My Categories</h1>
 
-      <button className="btn btn-primary mb-4" onClick={() => { setCurrentCategory(null); setShowModal(true); }}>
+      <button className="btn btn-primary rounded-pill mb-4" onClick={() => { setCurrentCategory(null); setShowModal(true); }}>
         <FontAwesomeIcon icon={faPlusCircle} className="me-2" />
         Add New Category
       </button>
@@ -55,6 +56,7 @@ const CategoriesPage = () => {
       <Modal show={showModal} onClose={() => setShowModal(false)} title={currentCategory ? 'Edit Category' : 'Create New Category'}>
         <CategoryForm category={currentCategory} onSubmit={handleFormSubmit} onCancel={() => setShowModal(false)} />
       </Modal>
+    </div>
     </div>
   );
 };

@@ -30,8 +30,9 @@ const DashboardPage = () => {
   }
 
   return (
-    <div className="dashboard-page container-fluid">
-      <h1 className="mb-4 text-primary">Welcome, {user?.name}!</h1>
+    <div className="container">
+      <div className="page-inner">
+      <h1 className="mb-4 text">Welcome, {user?.name}! MANAGE YOUR DASHBOARD</h1>
       <p className="lead text-muted">Here's a quick overview of your tasks and resources.</p>
 
       <div className="row g-4 mb-5">
@@ -43,7 +44,7 @@ const DashboardPage = () => {
               <FontAwesomeIcon icon={faTasks} size="lg" />
             </div>
             <div className="card-body">
-              <h5 className="card-title display-4">{totalTodos}</h5>
+              <h5 className="card-title display-4 fs-1 text-white">{totalTodos}</h5>
               <p className="card-text">All tasks you have created.</p>
             </div>
             <div className="card-footer bg-white text-primary">
@@ -60,7 +61,7 @@ const DashboardPage = () => {
               <FontAwesomeIcon icon={faCheckCircle} size="lg" />
             </div>
             <div className="card-body">
-              <h5 className="card-title display-4">{completedTodos}</h5>
+              <h5 className="card-title display-4 fs-1 text-white">{completedTodos}</h5>
               <p className="card-text">Tasks that are marked as done.</p>
             </div>
             <div className="card-footer bg-white text-success">
@@ -77,7 +78,7 @@ const DashboardPage = () => {
               <FontAwesomeIcon icon={faClock} size="lg" />
             </div>
             <div className="card-body">
-              <h5 className="card-title display-4">{pendingTodos}</h5>
+              <h5 className="card-title display-4 fs-1 text-white">{pendingTodos}</h5>
               <p className="card-text">Tasks still waiting to be done.</p>
             </div>
             <div className="card-footer bg-white text-warning">
@@ -94,7 +95,7 @@ const DashboardPage = () => {
               <FontAwesomeIcon icon={faFolderOpen} size="lg" />
             </div>
             <div className="card-body">
-              <h5 className="card-title display-4">{categories.length}</h5>
+              <h5 className="card-title display-4 fs-1 text-white">{categories.length}</h5>
               <p className="card-text">Organize your tasks with categories.</p>
             </div>
             <div className="card-footer bg-white text-info">
@@ -103,81 +104,121 @@ const DashboardPage = () => {
           </div>
         </div>
       </div>
+            
 
-      <div className="row g-4">
+      <div className="row">
         {/* Latest Todos Card */}
-        <div className="col-lg-6">
-          <div className="card shadow-sm h-100">
-            <div className="card-header bg-dark text-white">
-              <h5>Latest Todos</h5>
+        <div className="col-md-6">
+          <div className="card card-round">
+            <div className="card-header">
+              <div className="card-head-row card-tools-still-right">
+                <div className="card-title">Latest Todos</div>
+                <div className="card-tools">
+                  <div className="dropdown">
+                      {/* <a className="dropdown-item" href="#">Action</a> */}
+                    <Link to="/todos" className="btn btn-outline-primary rounded-pill btn-sm">View All Todos</Link>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="card-body">
-              {todos.length > 0 ? (
-                <ul className="list-group list-group-flush">
-                  {todos.slice(0, 5).map((todo) => (
-                    <li key={todo.id} className={`list-group-item d-flex justify-content-between align-items-center ${todo.is_completed ? 'text-muted text-decoration-line-through' : ''}`}>
-                      <span>{todo.title}</span>
-                      <span className={`badge ${todo.is_completed ? 'bg-success' : 'bg-secondary'}`}>
-                        {todo.is_completed ? 'Completed' : 'Pending'}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p className="text-center text-muted">No todos found. Start by creating one!</p>
-              )}
-            </div>
-            <div className="card-footer text-center bg-light">
-                <Link to="/todos" className="btn btn-outline-primary btn-sm">View All Todos</Link>
+            <div className="card-body p-0">
+              <div className="table-responsive">
+                  {/* <!-- Projects table --> */}
+                {todos.length > 0 ? (
+                  <table className="table align-items-center mb-0">
+                    <thead className="thead-light">
+                      <tr>
+                        <th scope="col">Title</th>
+                        <th scope="col" className="text-end">Date & Time</th>
+                        <th scope="col" className="text-end">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {todos.slice(0, 5).map((todo) => (
+                        <tr key={todo.id} className={` ${todo.is_completed ? 'text-muted text-decoration-line-through' : ''}`}>
+                          <th scope="row">{todo.title}</th>
+                          <td className="text-center">{todo.createAt || 'date'}</td>
+                          <td className="text-end">
+                            <span className={`badge ${todo.is_completed ? 'bg-success' : 'bg-secondary'}`}>{todo.is_completed ? 'Completed' : 'Pending'}</span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                ) : (
+                  <p className="text-center text-muted">No todos found. Start by creating one!</p>
+                )}
+              </div>
             </div>
           </div>
         </div>
 
         {/* Latest Categories/Tags Card */}
-        <div className="col-lg-6">
-          <div className="card shadow-sm h-100">
-            <div className="card-header bg-dark text-white">
-              <h5>Your Resources</h5>
+        <div className="col-md-6">
+          <div className="card card-round">
+            <div className="card-header">
+              <div className="card-head-row card-tools-still-right">
+                <div className="card-title">Your Resources</div>
+              </div>
             </div>
-            <div className="card-body">
-              <div className="mb-4">
-                <h6><FontAwesomeIcon icon={faFolderOpen} className="me-2" />Your Categories</h6>
+            <div className="card-body p-0">
+              <div className="table-responsive">
+                  {/* <!-- Projects table --> */}
                 {categories.length > 0 ? (
-                  <ul className="list-group list-group-flush">
-                    {categories.slice(0, 3).map(cat => (
-                      <li key={cat.id} className="list-group-item d-flex justify-content-between align-items-center py-1">
-                        {cat.name}
-                      </li>
-                    ))}
-                  </ul>
+                  <table className="table align-items-center mb-0">
+                    <thead className="thead-light">
+                      <tr>
+                        <th scope="col"><h6><FontAwesomeIcon icon={faFolderOpen} className="me-2" />Your Categories</h6></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                     {categories.slice(0, 3).map(cat => (
+                        <tr key={cat.id}>
+                          <th scope="row">{cat.name}</th>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 ) : (
-                  <p className="text-muted small">No categories yet.</p>
+                  <p className="text-center text-muted small">No categories yet.</p>
                 )}
-                <div className="text-end mt-2">
-                  <Link to="/categories" className="btn btn-outline-info btn-sm">Manage Categories</Link>
-                </div>
-              </div>
-
-              <div>
-                <h6><FontAwesomeIcon icon={faTags} className="me-2" />Your Tags</h6>
-                {tags.length > 0 ? (
-                  <ul className="list-group list-group-flush">
-                    {tags.slice(0, 3).map(tag => (
-                      <li key={tag.id} className="list-group-item d-flex justify-content-between align-items-center py-1">
-                        {tag.name}
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p className="text-muted small">No tags yet.</p>
-                )}
-                 <div className="text-end mt-2">
-                  <Link to="/tags" className="btn btn-outline-info btn-sm">Manage Tags</Link>
+                <div className="text-end mt-2 me-2">
+                  <Link to="/categories" className="btn btn-outline-primary rounded-pill btn-sm mb-4 mt-2">Manage Categories</Link>
                 </div>
               </div>
             </div>
+
+            <div className="card-body p-0">
+              <div className="table-responsive">
+                  {/* <!-- Projects table --> */}
+                {tags.length > 0 ? (
+                  <table className="table align-items-center mb-0">
+                    <thead className="thead-light">
+                      <tr>
+                        <th scope="col"><h6><FontAwesomeIcon icon={faTags} className="me-2" />Your Tags</h6></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {tags.slice(0, 3).map(tag => (
+                        <tr key={tag.id}>
+                          <th scope="row">{tag.name}</th>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                ) : (
+                  <p className="text-center text-muted small">No tags yet.</p>
+                )}
+                <div className="text-end mt-2 me-2">
+                  <Link to="/tags" className="btn btn-outline-primary rounded-pill btn-sm mb-4 mt-2">Manage Tags</Link>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
+        
+      </div>
       </div>
     </div>
   );

@@ -42,19 +42,21 @@ const TagsPage = () => {
   }
 
   return (
-    <div className="tags-page container-fluid">
-      <h1 className="mb-4 text-primary">My Tags</h1>
+    <div className="container">
+      <div className="page-inner">
+          <h1 className="mb-4 text-primary">My Tags</h1>
+          
+          <button className="btn btn-primary mb-4" onClick={() => { setCurrentTag(null); setShowModal(true); }}>
+            <FontAwesomeIcon icon={faPlusCircle} className="me-2" />
+            Add New Tag
+          </button>
 
-      <button className="btn btn-primary mb-4" onClick={() => { setCurrentTag(null); setShowModal(true); }}>
-        <FontAwesomeIcon icon={faPlusCircle} className="me-2" />
-        Add New Tag
-      </button>
+          <TagList tags={tags} onEdit={handleEdit} onDelete={handleDelete} />
 
-      <TagList tags={tags} onEdit={handleEdit} onDelete={handleDelete} />
-
-      <Modal show={showModal} onClose={() => setShowModal(false)} title={currentTag ? 'Edit Tag' : 'Create New Tag'}>
-        <TagForm tag={currentTag} onSubmit={handleFormSubmit} onCancel={() => setShowModal(false)} />
-      </Modal>
+          <Modal show={showModal} onClose={() => setShowModal(false)} title={currentTag ? 'Edit Tag' : 'Create New Tag'}>
+            <TagForm tag={currentTag} onSubmit={handleFormSubmit} onCancel={() => setShowModal(false)} />
+          </Modal>
+      </div>
     </div>
   );
 };

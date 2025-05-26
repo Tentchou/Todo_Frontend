@@ -1,61 +1,106 @@
 import React from 'react';
 
 const Pagination = ({ pagination, onPageChange }) => {
+  // Ne pas afficher la pagination s'il n'y a qu'une seule page ou aucune information
   if (!pagination || pagination.last_page <= 1) {
-    return null; // Pas de pagination si une seule page
+    return null;
   }
 
-  const { current_page, last_page, links } = pagination;
+  const { current_page, last_page } = pagination; // Pas besoin de 'links' pour cette implémentation
 
-  const renderPageNumbers = () => {
-    const pageNumbers = [];
-    // Limite l'affichage à quelques pages autour de la page actuelle
-    let startPage = Math.max(1, current_page - 2);
-    let endPage = Math.min(last_page, current_page + 2);
+  // Fonction pour générer les numéros de page avec une logique de points de suspension
+  const generatePageNumbers = () => {
+    const pages = [];
+    const maxPagesToShow = 5; // Nombre maximum de numéros de page visibles à la fois
+    const delta = 2; // Nombre de pages à afficher de chaque côté de la page courante
 
-    if (current_page < 3) {
-        endPage = Math.min(last_page, 5);
-    }
-    if (current_page > last_page - 2) {
-        startPage = Math.max(1, last_page - 4);
+    // Ajouter la première page si elle n'est pas dans la fenêtre visible
+    if (current_page - delta > 1) {
+      pages.push(1);
+      if (current_page - delta > 2) { // Ajouter des points de suspension si nécessaire
+        pages.push('...');
+      }
     }
 
-    for (let i = startPage; i <= endPage; i++) {
-      pageNumbers.push(
-        <li key={i} className={`page-item ${current_page === i ? 'active' : ''}`}>
-          <button className="page-link" onClick={() => onPageChange(i)}>
-            {i}
-          </button>
-        </li>
-      );
+    // Ajouter les pages autour de la page courante
+    for (let i = Math.max(1, current_page - delta); i <= Math.min(last_page, current_page + delta); i++) {
+      pages.push(i);
     }
-    return pageNumbers;
+
+    // Ajouter la dernière page si elle n'est pas dans la fenêtre visible
+    if (current_page + delta < last_page) {
+      if (current_page + delta < last_page - 1) { // Ajouter des points de suspension si nécessaire
+        pages.push('...');
+      }
+      pages.push(last_page);
+    }
+
+    return pages.map((page, index) => (
+      <li
+        key={page === '...' ? `dots-${index}` : page} // Clé unique pour les points de suspension
+        className={`page-item ${current_page === page ? 'active' : ''} ${page === '...' ? 'disabled' : ''}`}
+      >
+        <button
+          className="page-link"
+          onClick={() => page !== '...' && onPageChange(page)} // Ne pas réagir au clic sur les points de suspension
+          disabled={page === '...'} // Désactiver le bouton si c'est '...'
+          aria-label={page === '...' ? "Pages non affichées" : `Page ${page}`}
+        >
+          {page}
+        </button>
+      </li>
+    ));
   };
 
   return (
-    <nav aria-label="Pagination" className="mt-4">
-      <ul className="pagination justify-content-center flex-wrap"> {/* flex-wrap pour les petits écrans */}
+    <nav aria-label="Navigation des pages de tâches" className="mt-4">
+      <ul className="pagination justify-content-center flex-wrap shadow-sm rounded"> {/* Ajout de shadow et rounded */}
+        {/* Bouton "Première page" */}
         <li className={`page-item ${current_page === 1 ? 'disabled' : ''}`}>
-          <button className="page-link" onClick={() => onPageChange(1)} aria-label="First">
-            &laquo; First
+          <button
+            className="page-link"
+            onClick={() => onPageChange(1)}
+            disabled={current_page === 1}
+            aria-label="Aller à la première page"
+          >
+            &laquo;
           </button>
         </li>
+        {/* Bouton "Précédent" */}
         <li className={`page-item ${current_page === 1 ? 'disabled' : ''}`}>
-          <button className="page-link" onClick={() => onPageChange(current_page - 1)} aria-label="Previous">
-            &lsaquo; Previous
+          <button
+            className="page-link"
+            onClick={() => onPageChange(current_page - 1)}
+            disabled={current_page === 1}
+            aria-label="Page précédente"
+          >
+            &lsaquo;
           </button>
         </li>
 
-        {renderPageNumbers()}
+        {/* Numéros de page générés */}
+        {generatePageNumbers()}
 
+        {/* Bouton "Suivant" */}
         <li className={`page-item ${current_page === last_page ? 'disabled' : ''}`}>
-          <button className="page-link" onClick={() => onPageChange(current_page + 1)} aria-label="Next">
-            Next &rsaquo;
+          <button
+            className="page-link"
+            onClick={() => onPageChange(current_page + 1)}
+            disabled={current_page === last_page}
+            aria-label="Page suivante"
+          >
+            &rsaquo;
           </button>
         </li>
+        {/* Bouton "Dernière page" */}
         <li className={`page-item ${current_page === last_page ? 'disabled' : ''}`}>
-          <button className="page-link" onClick={() => onPageChange(last_page)} aria-label="Last">
-            Last &raquo;
+          <button
+            className="page-link"
+            onClick={() => onPageChange(last_page)}
+            disabled={current_page === last_page}
+            aria-label="Aller à la dernière page"
+          >
+            &raquo;
           </button>
         </li>
       </ul>

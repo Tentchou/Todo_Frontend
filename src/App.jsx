@@ -26,16 +26,22 @@ import CategoriesPage from './pages/CategoriesPage';
 import TagsPage from './pages/TagsPage';
 import SettingsPage from './pages/SettingsPage';
 import NotFoundPage from './pages/NotFoundPage';
+import Seetings from './components/Layout/Seetings';
 
 // Layout pour les routes privées (avec Sidebar)
 const PrivateLayout = () => {
   return (
-    <div className="dashboard-layout">
+    <>
       <Sidebar />
-      <main className="main-content flex-grow-1">
-        <Outlet /> {/* Rend le contenu de la route enfant ici */}
-      </main>
-    </div>
+      <div className="wrapper">
+        <div className="main-panel">
+          <Header />
+            <Outlet /> {/* Rend le contenu de la route enfant ici */}
+          <Footer />
+        </div>
+        <Seetings/>
+      </div>
+    </>
   );
 };
 
@@ -44,10 +50,9 @@ function App() {
     <Router>
       <AuthProvider>
         <div className="d-flex flex-column min-vh-100">
-          <Header />
           <div className="flex-grow-1 d-flex flex-column"> {/* Permet à ce div de prendre l'espace restant */}
             <Routes>
-              {/* Public Routes */}
+              {/* <Header/> */}
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/forgot-password" element={<ForgotPasswordPage />} />
@@ -77,7 +82,6 @@ function App() {
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </div>
-          <Footer />
         </div>
       </AuthProvider>
     </Router>
