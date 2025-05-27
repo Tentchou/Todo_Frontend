@@ -7,7 +7,7 @@ const axiosCsrf = axios.create({
 });
 
 const api = axios.create({
-  baseURL: "https://todobackend-production-1553.up.railway.app/api",
+  baseURL: import.meta.env.VITE_API_URL,
   withCredentials: true,
   headers: {
     'Accept': 'application/json',
