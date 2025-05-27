@@ -2,12 +2,12 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 const axiosCsrf = axios.create({
-  baseURL: import.meta.env.VITE_API_URL.replace('/api', ''),
+  baseURL: import.meta.env.VITE_API_URL,
   withCredentials: true,
 });
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: "https://todobackend-production-1553.up.railway.app/api",
   withCredentials: true,
   headers: {
     'Accept': 'application/json',
