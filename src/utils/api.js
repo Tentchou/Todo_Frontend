@@ -1,6 +1,9 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
+
+axios.defaults.withCredentials = true;
+
 const axiosCsrf = axios.create({
   baseURL: import.meta.env.VITE_API_URL.replace('/api', ''),
   withCredentials: true,
