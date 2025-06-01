@@ -21,7 +21,7 @@ const api = axios.create({
 let csrfFetched = false;
 
 api.interceptors.request.use(async (config) => {
-  if (!csrfFetched && ['POST', 'PUT', 'PATCH', 'DELETE'].includes(config.method.toUpperCase())) {
+  if (!csrfFetched) {
     try {
       await axiosCsrf.get('/sanctum/csrf-cookie');
       csrfFetched = true;
