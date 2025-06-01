@@ -32,6 +32,7 @@ const DashboardPage = () => {
   return (
     <div className="container">
       <div className="page-inner">
+        <div className="row">
       <h1 className="mb-4 text">Welcome, {user?.name}! MANAGE YOUR DASHBOARD</h1>
       <p className="lead text-muted">Here's a quick overview of your tasks and resources.</p>
 
@@ -218,6 +219,7 @@ const DashboardPage = () => {
           </div>
         </div>
         
+      </div>
       </div>
       </div>
     </div>
