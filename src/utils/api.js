@@ -1,16 +1,15 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-
 axios.defaults.withCredentials = true;
 
-const axiosCsrf = axios.create({
-  baseURL:"https://todobackend-production-1553.up.railway.app/api".replace('/api', ''),
+const csrfClient = axios.create({
+  baseURL: 'https://todobackend-production-1553.up.railway.app',
   withCredentials: true,
 });
 
 const api = axios.create({
-  baseURL:"https://todobackend-production-1553.up.railway.app/api",
+  baseURL: 'https://todobackend-production-1553.up.railway.app/api',
   withCredentials: true,
   headers: {
     'Accept': 'application/json',
@@ -18,22 +17,17 @@ const api = axios.create({
   },
 });
 
-let csrfFetched = false;
+let csrfReady = false;
 
 api.interceptors.request.use(async (config) => {
-  if (!csrfFetched) {
-    try {
-      await axiosCsrf.get('/sanctum/csrf-cookie');
-      csrfFetched = true;
-    } catch (error) {
-      console.error("Failed to get CSRF token:", error);
-      return Promise.reject(error);
-    }
+  if (!csrfReady) {
+    await csrfClient.get('/sanctum/csrf-cookie');
+    csrfReady = true;
   }
-  
-  const xsrfToken = Cookies.get('XSRF-TOKEN');
-  if (xsrfToken) {
-    config.headers['X-XSRF-TOKEN'] = xsrfToken;
+
+  const token = Cookies.get('XSRF-TOKEN');
+  if (token) {
+    config.headers['X-XSRF-TOKEN'] = token;
   }
 
   return config;
